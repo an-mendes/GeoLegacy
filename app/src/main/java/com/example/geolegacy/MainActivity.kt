@@ -111,8 +111,37 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.requestLocationUpdates(
+                mLocationRequestHighAccuracy,
+                Looper.getMainLooper()
+
+            )
+        }
+        binding.swLocationsupdates.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                startLocationUpdates()
+            } else {
+                stopLocationUpdates()
+                binding.tvLon.text = 0.toString()
+                binding.tvLat.text = 0.toString()
+            }
+        }
         onResume()
     }
+    //TODO ^^ THIS IS ON CREATE END
+    private fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
 
     private fun getCurrentlocation() {
         fun checkPermissions() {
@@ -156,5 +185,12 @@ class MainActivity : AppCompatActivity() {
         }
         lastLocation()
     }
+
+}
+
+private fun FusedLocationProviderClient.requestLocationUpdates(
+    mLocationRequestHighAccuracy: LocationRequest,
+    mainLooper: Looper?
+) {
 
 }
