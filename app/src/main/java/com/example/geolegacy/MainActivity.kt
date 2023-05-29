@@ -221,3 +221,8 @@ private fun FusedLocationProviderClient.requestLocationUpdates(
     // Function to request location updates (implementation is missing)
 }
 
+// Insert a new location
+val locationId = MapDatabaseManager.insertLocation(latitude, longitude, name)
+
+// Retrieve all locations
+val locations = MapDatabaseManager.getAllLocations()
